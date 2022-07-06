@@ -8,7 +8,7 @@
 # Verificar se o PL eh Factivel:
 ###############################
 function factivel = verificar_factibilidade(A, b, c, base, flag_bigM)
-  fprintf('Verificando se Base é Factivel: ');
+  fprintf('Verificando se Base é Factivel: \n');
   factivel = 1;
   Ab = [ A  b ];
   if (rank(A) != rank(Ab))

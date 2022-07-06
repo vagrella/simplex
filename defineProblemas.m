@@ -92,6 +92,7 @@ function defineProblemas()
   A = [1.00 1.00 1.00 0.00;2.00 3.00 0.00 -1.00]
   b = [4.00;18.00]
   c = [-3.00;4.00;0.00;0.00]
+  #base infactivel
   base = [3 4]
   simplex(A, b, c, base, limite_i);
 endfunction

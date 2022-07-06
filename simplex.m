@@ -47,7 +47,7 @@ function simplex(A, b, c, base, limite_i)
     # variavel Adicional nao for zero, é porque ela que deixou ótimo
     [nova_base xA] = simplex_BigM(temp_A, b, temp_c, temp_base, M, i, limite_i);
     
-    factivel = verificar_factibilidade(A, b, c, nova_base, flag_bigM);
+    factivel = verificar_factibilidade(A, b, c, nova_base, 0);
     if (factivel == 1)
       fprintf('================================================= \n');
       fprintf('Nova Base encontrada: ');
@@ -62,6 +62,7 @@ function simplex(A, b, c, base, limite_i)
   endif
   
   if (factivel == 1)
+    flag_bigM = 0;
     z = 0;
     while (i <= limite_i)
       %fprintf('Interação: %d ', i);
@@ -134,16 +135,14 @@ function simplex(A, b, c, base, limite_i)
           pause;
         endif
       else
+        
+        factivel = verificar_factibilidade(A, b, c, base, flag_bigM);
         #Se no ótimo xA != 0, então o problema original é infactı́vel
         if (min(xA) == 0 && max(xA) == 0)
-          fprintf('================================================= \n');
-          fprintf('Resultado: PL INFACTIVEL! \n');
-          fprintf('================================================= \n');
-          fprintf('--------------------FIM-------------------------- \n')
-          fprintf('Pressione qualquer tecla para continuar. \n');
-          pause;
-          break;
-        else
+          factivel = 0;
+        endif
+        
+        if (factivel == 1)
           # Otimo encontrado
           i = limite_i;
           fprintf('================================================= \n');
@@ -153,6 +152,14 @@ function simplex(A, b, c, base, limite_i)
           fprintf('Pressione qualquer tecla para continuar. \n');
           pause;
           break
+        else
+          fprintf('================================================= \n');
+          fprintf('Resultado: PL Original INFACTIVEL! \n');
+          fprintf('================================================= \n');
+          fprintf('--------------------FIM-------------------------- \n')
+          fprintf('Pressione qualquer tecla para continuar. \n');
+          pause;
+          break;
         endif
       endif
       
@@ -165,7 +172,7 @@ function simplex(A, b, c, base, limite_i)
     endwhile
   else
     fprintf('================================================= \n');
-    fprintf('Resultado: PL INFACTIVEL! \n');
+    fprintf('Resultado: PL INFACTIVEL Primal! \n');
     fprintf('================================================= \n');
     fprintf('--------------------FIM-------------------------- \n')
     fprintf('Pressione qualquer tecla para continuar. \n');
